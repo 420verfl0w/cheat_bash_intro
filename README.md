@@ -9,6 +9,7 @@
   - [Flux and piping](./README.md#flux-and-piping)
   - [`&&` AND gate](./README.md#and-gate)
   - [BONUS: `||` OR gate](./README.md#bonus--or-gate)
+- [Brace Expansion](./README.md#)
 
 ## Command interpret history
 
@@ -56,6 +57,21 @@ two command and one logic operator:
 - execute ./main only if the compilation was a success
 > that prevent to launch a programm that was not changed or just not here
 
+### Silent error
+
+you can redirect the stderr fd (2) with the folling exemple
+
+```shell
+# find command with a lot of errors
+bash$ find / -name "*.txt"
+
+# wihtout errors
+bash$ find / -name "*.txt" 2>/dev/null
+```
+
+`/dev/null` is the place were nothing append, you redirect any file descriptor
+to it and it will accept it
+
 ### BONUS: `||` OR gate
 
 let's take the exemple above and to it a condition were the compilation failed:
@@ -73,3 +89,55 @@ two command and two logic operator:
 - echo command only append if the `./main` was NOT executed
 
 > juste lil' trick outder u know
+
+## Brace Expansion
+
+### basisc of lists
+
+list can be crafted with brace seperated with comma
+
+```shell
+bash$ echo {1,2,3}
+> 1 2 3
+bash$ echo test_{1,2,3}
+> test_1 test_2 test_3
+bash
+```
+
+this can be user to rename things
+
+```shell
+bash$ echo test{,_COMPLETE}
+> test test_COMPLETE
+
+bash$ mv test{,_COMPLETE}
+# equivalent to mv test test_COMPLETE
+
+bash$ mv test{_COMPLETE,_FINISHED}
+# equivalent to mv test_COMPLETE test_FINISHED
+
+bash$ echo test_{1,2,3}{_BONUS,_EXTANDED}
+test_1_BONUS test_1_EXTANDED test_2_BONUS test_2_BONUS ...
+```
+
+### Search and replace
+
+with brace expansion we can search and replace strings within a variable
+
+```shell
+# '%' remove from the end
+bash$ filename="file.txt"
+bash$ echo ${filename%.txt}
+> file
+
+# '#' remove from the begin
+bash$ filename="file.txt"
+bash$ echo ${filename#file}
+> .txt
+
+# Search and replace on all the string
+bash$ ="long_string_name_with_a_THINGS_i_want_to_remove"
+bash$ echo ${filename#file}
+> .txt
+```
+
