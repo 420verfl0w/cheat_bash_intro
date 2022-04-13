@@ -136,8 +136,9 @@ bash$ echo ${filename#file}
 > .txt
 
 # Search and replace on all the string
-bash$ ="long_string_name_with_a_THINGS_i_want_to_remove"
-bash$ echo ${filename#file}
-> .txt
+bash$ string="long_string_name_with_a_THINGS_i_want_to_remove"
+bash$ echo ${string/_THINGS/}
+> long_string_name_with_a_i_want_to_remove
+bash$ echo ${string/o/}
+> lng_string_name_with_a_THINGS_i_want_to_remve
 ```
-
